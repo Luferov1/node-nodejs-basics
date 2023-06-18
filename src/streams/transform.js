@@ -1,7 +1,7 @@
 import { Transform, pipeline } from 'stream';
 const transform = async () => {
-  const readableStream = process.stdout;
-  const writableStream = process.stdin;
+  const write = process.stdout;
+  const read = process.stdin;
   const transform = new Transform({
     transform(chunk, encoding, callback) {
       const handledString = chunk.toString().trim();
@@ -9,7 +9,7 @@ const transform = async () => {
       callback(null, reversedString + '\n');
     }
   });
-  pipeline(writableStream, transform, readableStream, (e) => e && console.log(e));
+  pipeline(read, transform, write, (e) => e && console.log('Something went wrong'));
 };
 
 await transform();
